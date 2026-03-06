@@ -10,6 +10,12 @@ services:
       - node_modules_backend:/app/node_modules
     depends_on:
       - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_NAME: mydb
 
   frontend:
     build:
