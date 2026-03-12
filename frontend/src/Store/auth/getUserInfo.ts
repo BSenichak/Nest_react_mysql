@@ -5,13 +5,13 @@ import type { InitialState } from "./authReducer"
 /**
  * Get all users from server
  */
-const getAllUsers = createAsyncThunk("authReducer/getAllUsers", async (_, {rejectWithValue}) => {
+const getUserInfo = createAsyncThunk("authReducer/getUserInfo", async (_, {rejectWithValue}) => {
     try {
-        let responce = await axios.get("/users")
-        if (responce.status >= 400) {
-            return rejectWithValue(responce)
+        let response = await axios.get("/users")
+        if (response.status >= 400) {
+            return rejectWithValue(response)
         }
-        return responce.data
+        return response.data
     } catch (error: any) {
         return rejectWithValue(error?.message)
     }
@@ -24,18 +24,17 @@ const getAllUsers = createAsyncThunk("authReducer/getAllUsers", async (_, {rejec
 export const getAllUsers_reducers = {
     pending: (state: InitialState) => {
         state.loading = true
-        state.users = []
+        state.userInfo = null
     },
     rejected: (state: InitialState, error: PayloadAction<any>) => {
         state.loading = false
-        state.users = []
         state.error = error.payload
     } ,
-    fullfuled: (state: InitialState, action: PayloadAction<Array<any>>) => {
+    fulfilled: (state: InitialState, action: PayloadAction<any>) => {
         state.loading = false
-        state.users = action.payload
+        state.userInfo = action.payload
     }
 }
 
 
-export default getAllUsers
+export default getUserInfo

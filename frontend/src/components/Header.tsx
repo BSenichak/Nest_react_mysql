@@ -1,22 +1,8 @@
-/**
- * Header component that displays the application navigation bar.
- * 
- * Renders an AppBar with the application title and navigation links.
- * The navigation links are dynamically generated from the links array.
- * 
- * @returns {JSX.Element} The header component with AppBar, title, and navigation
- * 
- * @example
- * ```tsx
- * <Header />
- * ```
- */
-import { AppBar, Container, Typography, Box, styled, List, ListItemButton, ListItemIcon } from "@mui/material";
+import { AppBar, Container, Typography, Box, styled, List } from "@mui/material";
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import { useNavigate, useLocation } from "react-router-dom"
-import React, { useCallback } from "react";
-import type { Theme } from "@mui/material/styles";
 import HomeIcon from '@mui/icons-material/Home';
+import Link, { type LinkProps } from "./Link";
+
 
 export default function Header() {
     let links: Array<LinkProps> = [
@@ -49,46 +35,7 @@ export default function Header() {
     )
 }
 
-interface LinkProps {
-    link: string;
-    title: string;
-    icon?: React.ReactNode
-}
-/**
- * Navigation button component for the header
- * 
- * Renders a clickable list item button that navigates to a specified route.
- * The button's background color changes based on whether the current location
- * matches the link's destination (active state).
- * 
- * @param {LinkProps} props - The component props
- * @param {string} props.link - The route path to navigate to
- * @param {string} props.title - The display text for the button
- * @param {ReactElement} props.icon - Icon right on the right (not required)
- * 
- * @returns {JSX.Element} A styled ListItemButton with navigation functionality
- * 
- * @example
- * ```tsx
- * <Link link="/dashboard" title="Dashboard" />
- * ```
- */
-function Link({ link, title, icon }: LinkProps) {
-    let navigate = useNavigate()
-    let location = useLocation()
 
-    let goTo = useCallback(() => {
-        navigate(link)
-    }, [])
-    let setButtonColor = (theme: Theme) => ({ backgroundColor: location.pathname == link ? theme.palette.primary.dark : theme.palette.primary.main })
-
-    return (
-        <ListItemButton onClick={goTo} sx={(theme) => ({ ...setButtonColor(theme), flexGrow: 0 })}>
-            {!!icon && <ListItemIcon>{icon}</ListItemIcon>}
-            {title}
-        </ListItemButton>
-    )
-}
 
 const Wrapper = styled(Box)(({ theme }) => ({
     display: "flex",

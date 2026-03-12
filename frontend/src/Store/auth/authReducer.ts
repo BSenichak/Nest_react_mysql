@@ -1,17 +1,20 @@
 import { createSlice, } from '@reduxjs/toolkit'
-import getAllUsers, { getAllUsers_reducers } from './getAllUsers';
+import getUserInfo, { getAllUsers_reducers } from './getUserInfo';
+import login, {login_reducers} from './login';
 
 export type InitialState = {
-    isLoggined: boolean
-    users: Array<any>
+    userInfo: {
+        username: string
+        name: string,
+        email: string,
+    } | null
     loading: boolean
     error: null | string
 }
 
 
 const initialState: InitialState = {
-    isLoggined: false,
-    users: [],
+    userInfo: null,
     loading: false,
     error: null
 }
@@ -21,9 +24,12 @@ const authReducer = createSlice({
     initialState,
     reducers: {},
     extraReducers(builder) {
-        builder.addCase(getAllUsers.pending, getAllUsers_reducers.pending)
-        builder.addCase(getAllUsers.rejected, getAllUsers_reducers.rejected)
-        builder.addCase(getAllUsers.fulfilled, getAllUsers_reducers.fullfuled)
+        builder.addCase(getUserInfo.pending, getAllUsers_reducers.pending)
+        builder.addCase(getUserInfo.rejected, getAllUsers_reducers.rejected)
+        builder.addCase(getUserInfo.fulfilled, getAllUsers_reducers.fulfilled)
+        builder.addCase(login.pending, login_reducers.pending)
+        builder.addCase(login.rejected, login_reducers.rejected)
+        builder.addCase(login.fulfilled, login_reducers.fulfilled)
     },
 });
 

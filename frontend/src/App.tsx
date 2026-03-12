@@ -1,35 +1,35 @@
-import { useDispatch, useSelector } from "react-redux"
-import type { AppDispatch, RootState, } from "./Store/store"
-import type { InitialState } from "./Store/auth/authReducer"
-import { useEffect } from "react"
-import getAllUsers from "./Store/auth/getAllUsers"
+import { lazy, Suspense, useEffect } from "react"
 import { Container, styled } from "@mui/material"
 import Header from "./components/Header"
+import { Route, Routes } from "react-router-dom"
+import Loading from "./components/Loading"
+import { useDispatch } from "react-redux"
+import type { AppDispatch } from "./Store/store"
+import getUserInfo from "./Store/auth/getUserInfo"
+const LoginPage = lazy(() => import("./pages/LoginPage"))
 
-type Users = Pick<InitialState, "loading" | "error" | "users">
 
 function App() {
   let dispatch = useDispatch<AppDispatch>()
-  useEffect(() => {
-    dispatch(getAllUsers())
-  }, [])
-  let { loading, users, error }: Users = useSelector<RootState, RootState["auth"]>((state: RootState) => state.auth)
+  useEffect(()=>{
+    dispatch(getUserInfo())
+  },[])
   return (
     <Wrapper>
       <Header />
       <Container>
-        <h1>hello world 12322</h1>
-        <h2>{loading}</h2>
-        <h2>{JSON.stringify(users)}</h2>
-        <h2>{error}</h2>
-
+        <Suspense fallback={<Loading/>}>
+          <Routes>
+            <Route element={<h1>Hello</h1>} path="/" />
+            <Route element={<LoginPage />} path="/login" />
+          </Routes>
+        </Suspense>
       </Container>
-
     </Wrapper>
   )
 }
 
-const Wrapper = styled("div")(({theme}) => ({
+const Wrapper = styled("div")(({ theme }) => ({
   background: theme.palette.background.default
 }))
 

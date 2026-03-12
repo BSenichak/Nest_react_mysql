@@ -3,7 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LoggerMiddlware } from './users/logger.middlware';
+import { LoggerMiddlware } from './utils/logger.middlware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [UsersModule, TypeOrmModule.forRoot({
@@ -15,7 +16,7 @@ import { LoggerMiddlware } from './users/logger.middlware';
   database: process.env.DB_NAME,
   autoLoadEntities: true,
   synchronize: true
-})],
+}), AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
