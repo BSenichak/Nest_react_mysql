@@ -16,7 +16,6 @@ export class AuthService {
     if (!user || !(await bcrypt.compare(pass, user.password))) {
       throw new UnauthorizedException('Невірний логін або пароль');
     }
-    
 
     const payload = { id: user.id, username: user.username };
     return {

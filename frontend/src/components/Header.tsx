@@ -2,6 +2,9 @@ import { AppBar, Container, Typography, Box, styled, List } from "@mui/material"
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import HomeIcon from '@mui/icons-material/Home';
 import Link, { type LinkProps } from "./Link";
+import LogoutButton from "./LogoutButton";
+import { useSelector } from "react-redux";
+import type { RootState } from "../Store/store";
 
 
 export default function Header() {
@@ -20,6 +23,14 @@ export default function Header() {
             link: "/register"
         }
     ]
+    const userInfo = useSelector<RootState, RootState["auth"]["userInfo"]>(state => state.auth.userInfo)
+    const authRoutes = ["/login", "/register"];
+    const filteredLinks = links.filter((el) => {
+        if (userInfo) {
+            return !authRoutes.includes(el.link);
+        }
+        return true;
+    });
     return (
         <AppBar component={"header"} position="static">
             <Container>
@@ -27,7 +38,8 @@ export default function Header() {
                     <ListAltIcon sx={(theme) => ({ fontSize: theme.typography.h3 })} />
                     <Typography variant="h4">Todo app</Typography>
                     <Nav>
-                        {links.map((item: LinkProps) => <Link key={item.link} link={item.link} title={item.title} icon={item.icon} />)}
+                        {filteredLinks.map((item: LinkProps) => <Link key={item.link} link={item.link} title={item.title} icon={item.icon} />)}
+                        <LogoutButton />
                     </Nav>
                 </Wrapper>
             </Container>

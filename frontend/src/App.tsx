@@ -6,13 +6,16 @@ import Loading from "./components/Loading"
 import { useDispatch } from "react-redux"
 import type { AppDispatch } from "./Store/store"
 import getUserInfo from "./Store/auth/getUserInfo"
+import NotFoundPage from "./pages/NotFoundPage"
+import MainPage from "./pages/MainPage"
 const LoginPage = lazy(() => import("./pages/LoginPage"))
+const RegisterPage = lazy(()=> import("./pages/RegisterPage"))
 
 
 function App() {
   let dispatch = useDispatch<AppDispatch>()
   useEffect(()=>{
-    dispatch(getUserInfo())
+    if(!!localStorage.getItem("token")) dispatch(getUserInfo())
   },[])
   return (
     <Wrapper>
@@ -20,8 +23,10 @@ function App() {
       <Container>
         <Suspense fallback={<Loading/>}>
           <Routes>
-            <Route element={<h1>Hello</h1>} path="/" />
+            <Route element={<MainPage/>} path="/" />
             <Route element={<LoginPage />} path="/login" />
+            <Route element={<RegisterPage />} path="/register" />
+            <Route element={<NotFoundPage />} path="/*" />
           </Routes>
         </Suspense>
       </Container>

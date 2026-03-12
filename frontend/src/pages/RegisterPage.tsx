@@ -3,24 +3,25 @@ import LoginIcon from '@mui/icons-material/Login';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useForm, Controller } from "react-hook-form"
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../Store/store";
-import login from "../Store/auth/login";
 import { useNavigate } from "react-router-dom";
-import getUserInfo from "../Store/auth/getUserInfo";
+import register from "../Store/auth/register";
 import { clearError } from "../Store/auth/authReducer";
 import { useSnackbar } from 'notistack';
 
-export default function LoginPage() {
-    const { control, handleSubmit, formState: { errors } } = useForm({
+export default function RegisterPage() {
+    const { control, handleSubmit, formState: { errors }, watch } = useForm({
         defaultValues: {
             email: "",
-            password: ""
+            password: "",
+            name: "",
+            username: "",
+            repeated_password: ""
         }
     })
     const [showPassword, setShowPassword] = useState(false)
-
     const { enqueueSnackbar } = useSnackbar();
     let dispatch = useDispatch<AppDispatch>()
     let { loading, error } = useSelector<RootState, RootState["auth"]>((state) => state.auth)
@@ -28,26 +29,25 @@ export default function LoginPage() {
     let navigate = useNavigate()
 
     useEffect(() => {
-
+        
         error && enqueueSnackbar(error, {
             variant: "error",
             autoHideDuration: 2000,
             onExit: () => dispatch(clearError())
         });
-    }, [error, enqueueSnackbar, dispatch]);
+    }, [error, enqueueSnackbar, dispatch]); 
 
     const submit = async (data: any) => {
-        let result = await dispatch(login(data))
+        let result = await dispatch(register(data))
         if (result?.type.split("/")[2] == "fulfilled") {
-            navigate("/")
-            dispatch(getUserInfo())
+            navigate("/login")
         }
     }
 
     return (
         <Wrapper>
             <Card component={"form"} onSubmit={handleSubmit(submit)}>
-                <CardHeader title={"Login"} />
+                <CardHeader title={"Register"} />
                 <Divider />
                 <CardContent sx={(theme) => ({ display: "flex", flexDirection: "column", gap: theme.spacing(1) })}>
                     <Controller
@@ -67,6 +67,46 @@ export default function LoginPage() {
                                 variant="outlined"
                                 error={!!errors?.email}
                                 helperText={(errors?.email?.message as string) || ""}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="name"
+                        control={control}
+                        rules={{
+                            required: "Name is required",
+                            minLength: {
+                                value: 2,
+                                message: "Name shuld be longer than 2 letters"
+                            }
+                        }}
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                label="Name"
+                                variant="outlined"
+                                error={!!errors?.name}
+                                helperText={(errors?.name?.message as string) || ""}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name="username"
+                        control={control}
+                        rules={{
+                            required: "Username is required",
+                            minLength: {
+                                value: 5,
+                                message: "Username shuld be longer than 5 letters"
+                            }
+                        }}
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                label="Username"
+                                variant="outlined"
+                                error={!!errors?.name}
+                                helperText={(errors?.name?.message as string) || ""}
                             />
                         )}
                     />
@@ -99,10 +139,43 @@ export default function LoginPage() {
                             />
                         )}
                     />
+                    <Controller
+                        name="repeated_password"
+                        control={control}
+                        rules={{
+                            required: "Repeated password is required",
+                            validate: (value): any => {
+                                if (watch("password") !== value) return "Passwords is not equal"
+                                return null
+                            }
+                        }}
+                        render={({ field }) => (
+                            <TextField
+                                {...field}
+                                label="Password"
+                                variant="outlined"
+                                type={showPassword ? "text" : "password"}
+                                error={!!errors?.repeated_password}
+                                helperText={(errors?.repeated_password?.message as string) || ""}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                edge="end"
+                                            >
+                                                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                    )
+                                }}
+                            />
+                        )}
+                    />
                 </CardContent>
                 <Divider />
                 <CardActions>
-                    <Button variant="contained" startIcon={loading ? <CircularProgress size="small" /> : <LoginIcon />} disabled={loading} fullWidth type="submit">Login</Button>
+                    <Button variant="contained" startIcon={loading ? <CircularProgress size="small" /> : <LoginIcon />} disabled={loading} fullWidth type="submit">Register</Button>
                 </CardActions>
             </Card>
         </Wrapper>

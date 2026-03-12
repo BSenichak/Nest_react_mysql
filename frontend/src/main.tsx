@@ -6,13 +6,16 @@ import { CssBaseline } from '@mui/material'
 import { Provider } from "react-redux"
 import store from './Store/store.ts'
 import { BrowserRouter } from 'react-router-dom'
+import { SnackbarProvider } from 'notistack'
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <BrowserRouter>
       <ThemeProvider theme={themes}>
-        <CssBaseline />
-        <App />
+        <SnackbarProvider>
+          <CssBaseline />
+          <App />
+        </SnackbarProvider>
       </ThemeProvider>
     </BrowserRouter>
   </Provider>
