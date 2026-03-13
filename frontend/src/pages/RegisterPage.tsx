@@ -77,7 +77,7 @@ export default function RegisterPage() {
                             required: "Name is required",
                             minLength: {
                                 value: 2,
-                                message: "Name shuld be longer than 2 letters"
+                                message: "Name should be longer than 2 letters"
                             }
                         }}
                         render={({ field }) => (
@@ -97,7 +97,7 @@ export default function RegisterPage() {
                             required: "Username is required",
                             minLength: {
                                 value: 5,
-                                message: "Username shuld be longer than 5 letters"
+                                message: "Username should be longer than 5 letters"
                             }
                         }}
                         render={({ field }) => (
@@ -183,8 +183,8 @@ export default function RegisterPage() {
 }
 
 const Wrapper = styled(Box)({
-    minHeight: "90vh",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexGrow: 1,
 })

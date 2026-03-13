@@ -3,7 +3,7 @@ import getUserInfo, { getAllUsers_reducers } from './getUserInfo';
 import login, {login_reducers} from './login';
 import register, {register_reducers} from './register';
 
-export type InitialState = {
+export type AuthState = {
     userInfo: {
         username: string
         name: string,
@@ -15,7 +15,7 @@ export type InitialState = {
 }
 
 
-const initialState: InitialState = {
+const initialState: AuthState = {
     userInfo: null,
     loading: false,
     error: null
@@ -25,10 +25,10 @@ const authReducer = createSlice({
     name: "authReducer",
     initialState,
     reducers: {
-        clearError: (state: InitialState)=>{
+        clearError: (state: AuthState)=>{
             state.error = null
         },
-        logout: (state: InitialState)=> {
+        logout: (state: AuthState)=> {
             state.userInfo = null
             localStorage.removeItem("token")
         }

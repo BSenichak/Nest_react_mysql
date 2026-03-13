@@ -1,6 +1,6 @@
 import { createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
-import type { InitialState } from "./authReducer"
+import type { AuthState } from "./authReducer"
 
 /**
  * Get all users from server
@@ -22,15 +22,15 @@ const getUserInfo = createAsyncThunk("authReducer/getUserInfo", async (_, {rejec
  * Manages loading state, user data, and error handling across pending, rejected, and fulfilled actions.
  */
 export const getAllUsers_reducers = {
-    pending: (state: InitialState) => {
+    pending: (state: AuthState) => {
         state.loading = true
         state.userInfo = null
     },
-    rejected: (state: InitialState, error: PayloadAction<any>) => {
+    rejected: (state: AuthState, error: PayloadAction<any>) => {
         state.loading = false
         state.error = error.payload
     } ,
-    fulfilled: (state: InitialState, action: PayloadAction<any>) => {
+    fulfilled: (state: AuthState, action: PayloadAction<any>) => {
         state.loading = false
         state.userInfo = action.payload
     }

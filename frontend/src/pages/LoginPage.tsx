@@ -110,8 +110,8 @@ export default function LoginPage() {
 }
 
 const Wrapper = styled(Box)({
-    minHeight: "90vh",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexGrow: 1,
 })

@@ -13,9 +13,9 @@ export default function NotFoundPage() {
 }
 
 const Wrapper = styled(Box)({
-    minHeight: "80vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    flexGrow: 1,
 })

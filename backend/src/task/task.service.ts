@@ -19,7 +19,7 @@ export class TaskService {
     }
 
     getTasks(take: number, skip: number, user: any) {
-        return this.taskRepository.find({
+        return this.taskRepository.findAndCount({
             where: { user: { id: user } },
             take,
             skip,

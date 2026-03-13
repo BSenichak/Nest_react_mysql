@@ -5,6 +5,7 @@ import Link, { type LinkProps } from "./Link";
 import LogoutButton from "./LogoutButton";
 import { useSelector } from "react-redux";
 import type { RootState } from "../Store/store";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Header() {
@@ -31,12 +32,13 @@ export default function Header() {
         }
         return true;
     });
+    let navigate = useNavigate()
     return (
         <AppBar component={"header"} position="static">
             <Container>
                 <Wrapper>
-                    <ListAltIcon sx={(theme) => ({ fontSize: theme.typography.h3 })} />
-                    <Typography variant="h4">Todo app</Typography>
+                    <ListAltIcon sx={(theme) => ({ fontSize: theme.typography.h3, cursor: "pointer" })} onClick={() => navigate("/")} />
+                    <Typography variant="h4" onClick={() => navigate("/")} sx={{cursor: "pointer"}}>Todo app</Typography>
                     <Nav>
                         {filteredLinks.map((item: LinkProps) => <Link key={item.link} link={item.link} title={item.title} icon={item.icon} />)}
                         <LogoutButton />

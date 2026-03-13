@@ -1,6 +1,6 @@
 import { createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import type { InitialState } from "./authReducer";
+import type { AuthState } from "./authReducer";
 
 const register = createAsyncThunk("authReducer/register", async (data, { rejectWithValue }) => {
     try {
@@ -15,14 +15,14 @@ const register = createAsyncThunk("authReducer/register", async (data, { rejectW
 })
 
 export const register_reducers = {
-    pending: (state: InitialState) => {
+    pending: (state: AuthState) => {
         state.loading = true
     },
-    rejected: (state: InitialState, error: PayloadAction<any>) => {
+    rejected: (state: AuthState, error: PayloadAction<any>) => {
         state.loading = false
         state.error = error.payload
     },
-    fulfilled: (state: InitialState) => {
+    fulfilled: (state: AuthState) => {
         state.loading = false
     }
 }
