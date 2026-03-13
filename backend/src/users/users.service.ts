@@ -41,7 +41,6 @@ export class UsersService {
     }
     
     async getUserInfo(id: number): Promise<User | null> {
-        console.log(id)
         return await this.userReposetory.findOne({
             where: { id },
             select: ["id", "email", "name", "username"] 

@@ -5,6 +5,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LoggerMiddlware } from './utils/logger.middlware';
 import { AuthModule } from './auth/auth.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [UsersModule, TypeOrmModule.forRoot({
@@ -16,7 +17,7 @@ import { AuthModule } from './auth/auth.module';
   database: process.env.DB_NAME,
   autoLoadEntities: true,
   synchronize: true
-}), AuthModule],
+}), AuthModule, TaskModule],
   controllers: [AppController],
   providers: [AppService],
 })
